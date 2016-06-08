@@ -20,7 +20,7 @@ class ProductController extends Controller
 
     public function create()
     {
-
+        return view('product.create');
     }
 
     public function store(Request $request)

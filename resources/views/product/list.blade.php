@@ -40,6 +40,7 @@
                                 <td>picture here</td>
                                 <td>{{$product->name}}</td>
                                 <td>{{money_format('%.2n', $product->price)}}</td>
+                                <td></td>
                             </tr>
                         @endforeach
                     @else
