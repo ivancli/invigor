@@ -37,10 +37,23 @@
                     @if(is_array($products) && count($products) > 0)
                         @foreach($products as $product)
                             <tr>
-                                <td>picture here</td>
-                                <td>{{$product->name}}</td>
-                                <td>{{money_format('%.2n', $product->price)}}</td>
-                                <td></td>
+                                <td align="center">
+                                    <a href="{{url('/product/' . $product['id'])}}">
+                                        <img src="data:image/jpeg;base64,{!! $product['picture'] !!}" width="200" alt="">
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{url('/product/' . $product['id'])}}">
+                                        {{$product['name']}}
+                                    </a>
+                                </td>
+                                <td>${{number_format($product['price'], 2, '.', ',')}}</td>
+                                <td align="center">
+                                    <a class="btn btn-primary" href="{{url('/product/'. $product['id'] . '/edit')}}">Edit</a>
+                                    {{ Form::open(array('route' => array('product.destroy', $product['id']), 'method' => 'delete', 'class'=>'inline-block')) }}
+                                    {!! Form::submit('Delete', ["class"=>"btn btn-danger", "href"=>"#"]) !!}
+                                    {{ Form::close() }}
+                                </td>
                             </tr>
                         @endforeach
                     @else

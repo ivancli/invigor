@@ -2,13 +2,13 @@
 /**
  * Created by PhpStorm.
  * User: Ivan
- * Date: 8/06/2016
- * Time: 10:16 PM
+ * Date: 9/06/2016
+ * Time: 12:39 AM
  */
 ?>
 @extends('layout.basic')
 @section('title')
-    Product - Create Page
+    Product - Edit Page
 @stop
 
 @section('link')
@@ -18,7 +18,7 @@
     {{-- create product form --}}
     <div class="row padding-top-bottom-10">
         <div class="col-sm-12">
-            {{ Form::open(array('url' => '/product', 'method'=>'post', 'class' => 'form-horizontal', 'files' => true)) }}
+            {{ Form::model($product, array('url' => '/product', 'method'=>'post', 'class' => 'form-horizontal', 'files' => true)) }}
             @if (count($errors) > 0)
                 <div class="row">
                     <div class="col-sm-6 col-sm-offset-3">
@@ -33,7 +33,7 @@
                 </div>
             @endif
 
-                @include('product.partial_form.product')
+            @include('product.partial_form.product')
 
             <div class="row">
                 <div class="col-sm-12 text-center">
