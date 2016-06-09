@@ -18,7 +18,9 @@
     {{-- create product form --}}
     <div class="row padding-top-bottom-10">
         <div class="col-sm-12">
-            {{ Form::model($product, array('url' => '/product', 'method'=>'post', 'class' => 'form-horizontal', 'files' => true)) }}
+
+{{--            {{ Form::model($product, array('url' => '/product', 'method'=>'post', 'class' => 'form-horizontal', 'files' => true)) }}--}}
+            {{ Form::model($product, array('route' => array('product.update', $product->id), 'method' => 'patch', 'class'=>'form-horizontal', 'files' => true)) }}
             @if (count($errors) > 0)
                 <div class="row">
                     <div class="col-sm-6 col-sm-offset-3">
@@ -37,7 +39,8 @@
 
             <div class="row">
                 <div class="col-sm-12 text-center">
-                    {!! Form::submit('Create Product', ["class"=>"btn btn-success"]) !!}
+                    {!! Form::submit('Edit Product', ["class"=>"btn btn-success", "href"=>"#"]) !!}
+                    <a href="{{url('/')}}" class="btn btn-warning">Cancel</a>
                 </div>
             </div>
             {{ Form::close() }}

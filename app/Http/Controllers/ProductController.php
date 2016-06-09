@@ -69,8 +69,40 @@ class ProductController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:100',
+            'price' => 'required|digits_between:0,99999',
+            'description' => 'required|max:500',
+            'picture' => 'mimes:jpeg,bmp,png,gif',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+
+        $product = Product::findOrFail($id);
+        if ($product) {
+            $product->name = $request->get('name');
+            $product->price = $request->get('price');
+            $product->description = $request->get('description');
+            if ($request->get('picture')) {
+                $picture = base64_encode(file_get_contents($request->get('picture')));
+                $product->picture = $picture;
+            }
+            try {
+                $product->save();
+                return redirect("product/" . $product->id);
+            } catch (Exception $e) {
+                Log::error($e->getMessage());
+                return redirect()->back()->withErrors(["errors" => array("Unable to update product. Please try again later")]);
+            }
+        } else {
+            Log::error("Product with ID ($id) cannot be found to update.");
+            abort(404, "Page not found");
+            return false;
+        }
 
     }
 
@@ -79,8 +111,10 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         if ($product) {
             $product->delete();
+            Log::notice("Product with ID ($id) is now deleted.");
             return redirect('/');
         } else {
+            Log::error("Product with ID ($id) cannot be found to destroy.");
             abort(404, "Page not found");
             return false;
         }

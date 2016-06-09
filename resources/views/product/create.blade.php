@@ -38,6 +38,7 @@
             <div class="row">
                 <div class="col-sm-12 text-center">
                     {!! Form::submit('Create Product', ["class"=>"btn btn-success"]) !!}
+                    <a href="{{url('/')}}" class="btn btn-warning">Cancel</a>
                 </div>
             </div>
             {{ Form::close() }}

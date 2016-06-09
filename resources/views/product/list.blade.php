@@ -50,7 +50,7 @@
                                 <td>${{number_format($product['price'], 2, '.', ',')}}</td>
                                 <td align="center">
                                     <a class="btn btn-primary" href="{{url('/product/'. $product['id'] . '/edit')}}">Edit</a>
-                                    {{ Form::open(array('route' => array('product.destroy', $product['id']), 'method' => 'delete', 'class'=>'inline-block')) }}
+                                    {{ Form::open(array('route' => array('product.destroy', $product['id']), 'method' => 'delete', 'class'=>'inline-block', 'onsubmit'=>'return confirm("Do you want to delete this product?")')) }}
                                     {!! Form::submit('Delete', ["class"=>"btn btn-danger", "href"=>"#"]) !!}
                                     {{ Form::close() }}
                                 </td>
