@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use Exception;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -34,13 +37,13 @@ class ProductController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
+            return Redirect::back()->withErrors($validator)->withInput();
         }
 
         $data = $request->all();
         $data['picture'] = base64_encode(file_get_contents($data['picture']));
         $product = Product::create($data);
-        return redirect('/product/' . $product->id);
+        return Redirect::to('/product/' . $product->id);
     }
 
     public function show($id)
@@ -79,7 +82,7 @@ class ProductController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
+            return Redirect::back()->withErrors($validator)->withInput();
         }
 
         $product = Product::findOrFail($id);
@@ -93,17 +96,16 @@ class ProductController extends Controller
             }
             try {
                 $product->save();
-                return redirect("product/" . $product->id);
+                return Redirect::to("product/" . $product->id);
             } catch (Exception $e) {
                 Log::error($e->getMessage());
-                return redirect()->back()->withErrors(["errors" => array("Unable to update product. Please try again later")]);
+                return Redirect::back()->withErrors(["errors" => array("Unable to update product. Please try again later")]);
             }
         } else {
             Log::error("Product with ID ($id) cannot be found to update.");
             abort(404, "Page not found");
             return false;
         }
-
     }
 
     public function destroy($id)
@@ -112,7 +114,7 @@ class ProductController extends Controller
         if ($product) {
             $product->delete();
             Log::notice("Product with ID ($id) is now deleted.");
-            return redirect('/');
+            return Redirect::to('/');
         } else {
             Log::error("Product with ID ($id) cannot be found to destroy.");
             abort(404, "Page not found");

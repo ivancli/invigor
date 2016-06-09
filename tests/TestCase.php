@@ -9,6 +9,16 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     protected $baseUrl = 'http://localhost';
 
+    public function __call($method, $args)
+    {
+        /* enable the following request methods */
+        if (in_array($method, ['get', 'post', 'put', 'patch', 'delete'])) {
+            return $this->call($method, $args[0]);
+        }
+
+        throw new BadMethodCallException;
+    }
+
     /**
      * Creates the application.
      *

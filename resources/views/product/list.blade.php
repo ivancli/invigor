@@ -26,41 +26,42 @@
         <div class="col-sm-12">
             <table class="table table-bordered table-hover table-striped table-condensed">
                 <thead>
-                    <tr>
-                        <th>Product picture</th>
-                        <th>Product name</th>
-                        <th>Product price</th>
-                        <th>Actions</th>
-                    </tr>
+                <tr>
+                    <th>Product picture</th>
+                    <th>Product name</th>
+                    <th>Product price</th>
+                    <th>Actions</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @if(is_array($products) && count($products) > 0)
-                        @foreach($products as $product)
-                            <tr>
-                                <td align="center">
-                                    <a href="{{url('/product/' . $product['id'])}}">
-                                        <img src="data:image/jpeg;base64,{!! $product['picture'] !!}" width="200" alt="">
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="{{url('/product/' . $product['id'])}}">
-                                        {{$product['name']}}
-                                    </a>
-                                </td>
-                                <td>${{number_format($product['price'], 2, '.', ',')}}</td>
-                                <td align="center">
-                                    <a class="btn btn-primary" href="{{url('/product/'. $product['id'] . '/edit')}}">Edit</a>
-                                    {{ Form::open(array('route' => array('product.destroy', $product['id']), 'method' => 'delete', 'class'=>'inline-block', 'onsubmit'=>'return confirm("Do you want to delete this product?")')) }}
-                                    {!! Form::submit('Delete', ["class"=>"btn btn-danger", "href"=>"#"]) !!}
-                                    {{ Form::close() }}
-                                </td>
-                            </tr>
-                        @endforeach
-                    @else
+                @if(is_array($products) && count($products) > 0)
+                    @foreach($products as $product)
                         <tr>
-                            <td colspan="4">No products in the list</td>
+                            <td align="center">
+                                <a href="{{url('/product/' . $product['id'])}}">
+                                    <img src="data:image/jpeg;base64,{!! $product['picture'] !!}" width="200" alt="">
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{url('/product/' . $product['id'])}}">
+                                    {{$product['name']}}
+                                </a>
+                            </td>
+                            <td>${{number_format($product['price'], 2, '.', ',')}}</td>
+                            <td align="center">
+                                <a class="btn btn-primary"
+                                   href="{{url('/product/'. $product['id'] . '/edit')}}">Edit</a>
+                                {{ Form::open(array('route' => array('product.destroy', $product['id']), 'method' => 'delete', 'class'=>'inline-block', 'onsubmit'=>'return confirm("Do you want to delete this product?")')) }}
+                                {!! Form::submit('Delete', ["class"=>"btn btn-danger", "href"=>"#"]) !!}
+                                {{ Form::close() }}
+                            </td>
                         </tr>
-                    @endif
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="4">No products in the list</td>
+                    </tr>
+                @endif
 
                 </tbody>
             </table>

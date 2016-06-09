@@ -33,7 +33,7 @@
                 </div>
             @endif
 
-                @include('product.partial_form.product')
+            @include('product.partial_form.product')
 
             <div class="row">
                 <div class="col-sm-12 text-center">
