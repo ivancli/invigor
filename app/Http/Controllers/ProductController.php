@@ -34,7 +34,7 @@ class ProductController extends Controller
             'name' => 'required|max:100',
             'price' => 'required|digits_between:0,99999',
             'description' => 'required|max:500',
-            'picture' => 'required|mimes:jpeg,bmp,png,gif',
+            'picture' => 'required|mimes:jpeg,bmp,png,gif|max:500',
         ]);
 
         if ($validator->fails()) {
@@ -79,7 +79,7 @@ class ProductController extends Controller
             'name' => 'required|max:100',
             'price' => 'required|digits_between:0,99999',
             'description' => 'required|max:500',
-            'picture' => 'mimes:jpeg,bmp,png,gif|max:800',
+            'picture' => 'mimes:jpeg,bmp,png,gif|max:500',
         ]);
 
         if ($validator->fails()) {
