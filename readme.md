@@ -37,3 +37,5 @@ In order to run unit testing, simply go to project directory in command prompt/t
 This project took me around 7-8 hours discontinuously including testing and readme.md creation.
 
 Due to time consideration, I haven't handled the exception of MySQL insert package size limitation and Apache memory size while coding the image upload function. And in the product create success test case, I haven't think of the way to delete the created product for that test case, since result is redirected after product created. Unable to retrieve newly created product information.
+
+And I've overlooked the test requirement, missed the pagination and sorting functionality. Added them back on Friday night, and updated the total use of time mentioned above.
