@@ -18,7 +18,7 @@
     {{-- create product form --}}
     <div class="row padding-top-bottom-10">
         <div class="col-sm-4 col-sm-offset-4">
-            <img src="data:image/jpeg;base64,{!! $product->picture !!}" width="100%" alt="">
+            <img src="data:image/jpeg;base64,{{ $product->picture }}" width="100%" alt="">
         </div>
     </div>
     <div class="row padding-top-bottom-10">

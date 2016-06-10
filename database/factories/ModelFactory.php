@@ -20,11 +20,11 @@
 //    ];
 //});
 
-$factory->define(App\Product::class, function(Faker\Generator $faker){
+$factory->define(App\Product::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->realText(100),
-        'price' => $faker->numberBetween(0,99999),
+        'price' => $faker->numberBetween(0, 99999),
         'description' => $faker->paragraph(),
-        'picture' => $faker->image()
+        'picture' => base64_encode(file_get_contents($faker->image())),
     ];
 });

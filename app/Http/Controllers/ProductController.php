@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -48,12 +49,12 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::findOrFail($id);
-        if ($product) {
+        try {
+            $product = Product::findOrFail($id);
             return view('product.show')->with(array(
                 "product" => $product
             ));
-        } else {
+        } catch (ModelNotFoundException $e) {
             abort(404, "Page not found");
             return false;
         }
@@ -61,12 +62,12 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $product = Product::findOrFail($id);
-        if ($product) {
+        try {
+            $product = Product::findOrFail($id);
             return view('product.edit')->with(array(
                 "product" => $product
             ));
-        } else {
+        } catch (ModelNotFoundException $e) {
             abort(404, "Page not found");
             return false;
         }
@@ -78,20 +79,20 @@ class ProductController extends Controller
             'name' => 'required|max:100',
             'price' => 'required|digits_between:0,99999',
             'description' => 'required|max:500',
-            'picture' => 'mimes:jpeg,bmp,png,gif',
+            'picture' => 'mimes:jpeg,bmp,png,gif|max:800',
         ]);
 
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
         }
-
-        $product = Product::findOrFail($id);
-        if ($product) {
-            $product->name = $request->get('name');
-            $product->price = $request->get('price');
-            $product->description = $request->get('description');
-            if ($request->get('picture')) {
-                $picture = base64_encode(file_get_contents($request->get('picture')));
+        $data = $request->all();
+        try {
+            $product = Product::findOrFail($id);
+            $product->name = $data['name'];
+            $product->price = $data['price'];
+            $product->description = $data['description'];
+            if (isset($data['picture'])) {
+                $picture = base64_encode(file_get_contents($data['picture']));
                 $product->picture = $picture;
             }
             try {
@@ -101,7 +102,7 @@ class ProductController extends Controller
                 Log::error($e->getMessage());
                 return Redirect::back()->withErrors(["errors" => array("Unable to update product. Please try again later")]);
             }
-        } else {
+        } catch (ModelNotFoundException $e) {
             Log::error("Product with ID ($id) cannot be found to update.");
             abort(404, "Page not found");
             return false;
@@ -110,12 +111,12 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        $product = Product::findOrFail($id);
-        if ($product) {
+        try {
+            $product = Product::findOrFail($id);
             $product->delete();
             Log::notice("Product with ID ($id) is now deleted.");
             return Redirect::to('/');
-        } else {
+        } catch (ModelNotFoundException $e) {
             Log::error("Product with ID ($id) cannot be found to destroy.");
             abort(404, "Page not found");
             return false;
