@@ -28,6 +28,6 @@ This framework also provides the functionality of database migration with the us
 
 > **Notice:** Please make sure the user has permissions to **create** and **delete** **tables** for db migration purpose.
 
-6. in project folder, run "sh init.sh" to initialise the project settings.
+Finally in project folder, run **"sh init.sh"** to initialise the project settings.
 
 Without extra settings, project should be accessible through "invigor/public".
