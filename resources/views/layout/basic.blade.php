@@ -14,6 +14,7 @@
 
     {{-- links start from here --}}
     <link rel="stylesheet" href="{{asset('assets/package/bootstrap-3.3.6-dist/css/bootstrap.min.css')}}">
+
     <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
     @yield('link')
 </head>

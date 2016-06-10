@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -17,9 +18,26 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $products = Product::all();
+        $order = -1;
+        $sort = "name";
+        $start = 1;
+        if ($request->get('sort')) {
+            $sort = $request->get('sort');
+        }
+        if ($request->get('start')) {
+            $start = $request->get('start');
+        }
+        if($request->get('order')){
+            $order = $request->get('order');
+        }
+        $products = DB::table("products")->skip($start == 0 ? 1 : ($start - 1))->take(10)->orderBy($sort, $order == 1 ? 'asc' : 'desc')->get();
+        $total = Product::count();
         return view('product.list')->with(array(
-            "products" => $products->toArray()
+            "products" => $products,
+            "order" => $order,
+            "sort" => $sort,
+            "start" => $start,
+            "total" => $total
         ));
     }
 
@@ -34,7 +52,7 @@ class ProductController extends Controller
             'name' => 'required|max:100',
             'price' => 'required|digits_between:0,99999',
             'description' => 'required|max:500',
-            'picture' => 'required|mimes:jpeg,bmp,png,gif|max:500',
+            'picture' => 'required|mimes:jpeg,png,gif|max:500',
         ]);
 
         if ($validator->fails()) {
