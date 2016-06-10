@@ -31,3 +31,7 @@ This framework also provides the functionality of database migration with the us
 Finally in project folder, run **"sh init.sh"** to initialise the project settings.
 
 Without extra settings, project should be accessible through "invigor/public".
+
+This project took me around 6 hours discontinuously including testing and readme.md creation.
+
+Due to time consideration, I haven't handled the exception of MySQL insert package size limitation and Apache memory size while coding the image upload function. And in the product create success test case, I haven't think of the way to delete the created product for that test case, since result is redirected after product created. Unable to retrieve newly created product information.
