@@ -18,19 +18,19 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $order = -1;
+        $order = 1;
         $sort = "name";
-        $start = 1;
+        $start = 0;
         if ($request->get('sort')) {
             $sort = $request->get('sort');
         }
         if ($request->get('start')) {
             $start = $request->get('start');
         }
-        if($request->get('order')){
+        if ($request->get('order')) {
             $order = $request->get('order');
         }
-        $products = DB::table("products")->skip($start == 0 ? 1 : ($start - 1))->take(10)->orderBy($sort, $order == 1 ? 'asc' : 'desc')->get();
+        $products = DB::table("products")->skip($start > 0 ? $start : 0)->take(10)->orderBy($sort, $order == 1 ? 'asc' : 'desc')->get();
         $total = Product::count();
         return view('product.list')->with(array(
             "products" => $products,
@@ -133,7 +133,7 @@ class ProductController extends Controller
             $product = Product::findOrFail($id);
             $product->delete();
             Log::notice("Product with ID ($id) is now deleted.");
-            return Redirect::to('/');
+            return Redirect::back();
         } catch (ModelNotFoundException $e) {
             Log::error("Product with ID ($id) cannot be found to destroy.");
             abort(404, "Page not found");

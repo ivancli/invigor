@@ -65,7 +65,7 @@
             </table>
 
             @if(isset($total))
-                @for($i = 0; $i <= ceil($total/10); $i++)
+                @for($i = 0; $i < ceil($total/10); $i++)
                     <a href="{{url("product?start=" . $i * 10 . "&sort=$sort&order=$order")}}" class="btn btn-default">{{$i + 1}}</a>
                 @endfor
             @endif
